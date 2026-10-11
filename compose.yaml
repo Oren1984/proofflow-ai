@@ -1,0 +1,27 @@
+services:
+  proofflow:
+    build:
+      context: .
+      args:
+        INSTALL_LLM: ${INSTALL_LLM:-false}
+    image: proofflow-ai:local
+    container_name: proofflow-ai
+    ports:
+      - "127.0.0.1:8501:8501"   # published on localhost only; the app has no authentication
+    environment:
+      PROOFFLOW_AI_MODE: ${PROOFFLOW_AI_MODE:-mock}
+      PROOFFLOW_LLM_MODEL: ${PROOFFLOW_LLM_MODEL:-claude-opus-5-5}
+      PROOFFLOW_LLM_TIMEOUT_S: ${PROOFFLOW_LLM_TIMEOUT_S:-20}
+      PROOFFLOW_MAX_UPLOAD_MB: ${PROOFFLOW_MAX_UPLOAD_MB:-5}
+      PROOFFLOW_SEED_DEMO: ${PROOFFLOW_SEED_DEMO:-true}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    volumes:
+      - proofflow-data:/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+
+volumes:
+  proofflow-data:

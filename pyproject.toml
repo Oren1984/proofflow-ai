@@ -1,0 +1,5 @@
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["e2e: browser-level tests that start the Streamlit app (need Playwright + Chromium)"]
